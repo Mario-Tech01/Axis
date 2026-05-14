@@ -1,0 +1,30 @@
+@startuml C4_Context
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Diagrama C4 - Nivel 1
+title Sistema de Gestión de Recogidas Médicas
+
+' Personas
+Person(usuario, "Usuario", "Solicita y consulta recogidas médicas")
+Person(admin, "Administrador", "Gestiona operaciones y monitorea el sistema")
+
+' Sistemas
+System(web, "Aplicación Web", "Interfaz de administración y monitoreo")
+
+System(mobile, "Aplicación Móvil", "Aplicación para usuarios y personal operativo")
+
+System(api, "Backend API", "API REST desarrollada con FastAPI")
+
+SystemDb(db, "Base de Datos", "Almacena usuarios, solicitudes y rutas")
+
+' Relaciones
+Rel(usuario, mobile, "Usa")
+Rel(admin, web, "Administra")
+
+Rel(web, api, "Consume API REST")
+Rel(mobile, api, "Consume API REST")
+
+Rel(api, db, "Lee y escribe datos")
+
+@enduml
