@@ -1,0 +1,32 @@
+# Sigue la siguiente estructura:
+
+# Formato:
+# tipo(scope / Ámbito): descripción corta
+#
+# Ejemplo:
+# feat(auth): agregar login con Google
+
+
+
+# Tipo de commit: (agrega ! si el cambio puede romper compatibilidades)
+# feat     -> nueva funcionalidad/característica
+# fix      -> corrección de errores
+# docs     -> documentación
+# style    -> formato/código sin cambios funcionales
+# refactor -> refactorización
+# test     -> pruebas
+# chore    -> tareas de mantenimiento
+# perf     -> mejoras de rendimiento
+# ci       -> integración continua
+# build    -> compilación/dependencias
+
+
+# Descripción detallada (opcional)
+#
+# - Cambio 1
+# - Cambio 2
+#
+# BREAKING CHANGE(un cambio que rompe compatibilidades con versiones anteriores del proyecto):
+#
+# Referencias:
+# Closes #123
