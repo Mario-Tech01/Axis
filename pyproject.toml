@@ -1,0 +1,19 @@
+[project]
+name = "axis"
+version = "0.0.1"
+description = "Proyecto Axis para la planificación y asignación de rutas de domicilios por medio de IA"
+authors = [
+    {name = "marioAvila",email = "mario.avila@uniminuto.edu.co"}
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi (>=0.136.3,<0.137.0)",
+    "uvicorn (>=0.47.0,<0.48.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

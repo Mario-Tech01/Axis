@@ -1,0 +1,57 @@
+@startuml C4_Container
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Diagrama C4 - Nivel 2
+title Backend - Sistema de Gestión de Recogidas Médicas
+
+LAYOUT_LEFT_RIGHT()
+
+' Personas
+Person(usuario, "Usuario", "Solicita recogidas médicas")
+Person(admin, "Administrador", "Gestiona operaciones")
+
+' Sistemas externos
+System_Ext(mobile, "Aplicación Móvil", "Clientes y operarios")
+System_Ext(web, "Aplicación Web", "Administración y monitoreo")
+
+' Sistema principal
+System_Boundary(backend, "Backend API - Arquitectura Hexagonal") {
+
+    Container(api, "API REST", "FastAPI", "Expone endpoints para autenticación, solicitudes, rutas y monitoreo")
+
+    Container(app, "Aplicación / Casos de Uso", "Python", "Orquesta los casos de uso y coordina reglas de negocio")
+
+    Container(domain, "Dominio", "Arquitectura Hexagonal", "Contiene entidades, reglas de negocio y lógica central")
+
+    Container(ai, "Motor IA de Asignación de Rutas", "Python IA/ML", "Optimiza y asigna rutas médicas automáticamente")
+
+    ContainerDb(db, "Base de Datos", "PostgreSQL", "Usuarios, solicitudes, rutas, vehículos y trazabilidad")
+
+    Container(queue, "Cola de Mensajes", "RabbitMQ / Redis", "Procesamiento asíncrono de asignación de rutas y eventos")
+
+}
+
+' Relaciones externas
+Rel(usuario, mobile, "Usa")
+Rel(admin, web, "Administra")
+
+Rel(mobile, api, "HTTPS/JSON")
+Rel(web, api, "HTTPS/JSON")
+
+' Relaciones internas
+Rel(api, app, "Invoca casos de uso")
+
+Rel(app, domain, "Ejecuta lógica de negocio")
+
+Rel(app, ai, "Solicita optimización de rutas")
+
+Rel(app, db, "Lee y escribe datos")
+
+Rel(app, queue, "Publica eventos")
+
+Rel(ai, db, "Consulta datos históricos y rutas")
+
+Rel(ai, queue, "Consume tareas de optimización")
+
+@enduml
