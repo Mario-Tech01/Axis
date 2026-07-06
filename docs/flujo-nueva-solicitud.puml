@@ -1,0 +1,70 @@
+@startuml Flujo_Tiempo_Real_Optimizacion_Rutas
+
+title Flujo de Trabajo en Tiempo Real - Optimización Dinámica de Rutas
+
+actor Cliente
+participant "Frontend Cliente\n(Mapa)" as FrontendCliente
+participant "Backend API" as Backend
+database "Base de Datos" as DB
+participant "Motor de Optimización" as Motor
+participant "GPS Repartidor" as GPS
+participant "OSRM\nMotor de Ruteo" as OSRM
+participant "OR-Tools / Modelo IA" as ORTools
+participant "Frontend Repartidor\n(Mapa)" as FrontendRepartidor
+
+== 1. Registro de solicitud ==
+
+Cliente -> FrontendCliente: Selecciona origen y destino\nsobre el mapa
+
+FrontendCliente -> Backend: Envía coordenadas\n(lat, lon)\nNueva solicitud de recogida
+
+Backend -> DB: Guarda nuevo punto\nde recogida
+
+
+== 2. Disparo del evento ==
+
+DB -> Motor: Evento: nuevo punto registrado\n(Recalcular ruta)
+
+
+== 3. Recálculo de ruta ==
+
+GPS -> Backend: Envía posición actual\n(lat, lon) continuamente
+
+Backend -> Motor: Envía posición actual\n+ entregas pendientes\n+ nueva recogida
+
+
+Motor -> Motor: Construye conjunto de puntos\npara optimización
+
+
+== 4. Consulta matriz de tiempos ==
+
+Motor -> OSRM: Solicita matriz de distancias\nentre puntos
+
+OSRM --> Motor: Devuelve matriz\n(tiempos y distancias)
+
+
+== 5. Optimización ==
+
+Motor -> ORTools: Calcula orden óptimo\nde visitas
+
+ORTools --> Motor: Nueva secuencia óptima\nde paradas
+
+
+== 6. Actualización en tiempo real ==
+
+Motor -> Backend: Envía nueva ruta optimizada
+
+Backend -> FrontendRepartidor: WebSocket\nActualización de ruta
+
+FrontendRepartidor -> FrontendRepartidor: Redibuja línea del camino\nsin refrescar pantalla
+
+
+note right of FrontendRepartidor
+Actualización instantánea:
+- Nueva ruta
+- Nuevas paradas
+- Cambio dinámico
+end note
+
+
+@enduml
